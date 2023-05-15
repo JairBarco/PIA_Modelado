@@ -3,17 +3,28 @@ import time
 
 def main():
     # Definición de variables
-    tiempos_reales = [2, 2, 2, 2, 5] # Tiempos reales de las operaciones
-    tiempos_aleatorios = [10, 5, 7, 9, 8] # Tiempos aleatorios de las operaciones
-    operacion_actual = 0 # Variable que indica la operación que se está realizando
-    operaciones_correctas = False # Variable que indica si todas las operaciones fueron correctas
+    estacion_actual = 0
+    tiempos_reales = [60, 12, 12, 12, 12, 12, 12, 12, 25, 20, 60, 12, 12, 20, 25]  # Tiempos reales de las operaciones
+    tiempos_aleatorios = [52, 56, 12, 59, 15, 22, 52, 20, 31, 33, 23, 12, 14, 15, 53]  # Tiempos aleatorios de las operaciones
+    operacion_actual = 0  # Variable que indica la operación que se está realizando
+    operaciones_correctas = False  # Variable que indica si todas las operaciones fueron correctas
     DISENO_ESPALDA = "Diseño Espalda"
     LARGO_TALLE = "Largo Talle"
     CONTORNO_BUSTO = "Contorno Busto"
+    CONTORNO_CINTURA = "Contorno Cintura"
+    CONTORNO_CADERA = "Contorno Cadera"
+    ALTURA_CADERA = "Altura Cadera"
+    LARGO_MANGAS = "Largo Mangas"
+    LARGO_TOTAL_CAMISA = "Largo Toral Camisa"
+    COLECCIONES = "Colecciones"
+    CREACION_COLOR = "Creacion Color"
+    CREACION_TELA = "Creacion Tela"
+    TIPOS_TELAS = "Tipos Telas"
+    COLORES = "Colores"
+    CONSULTA_DISENO = "Consulta Diseño"
     DISENO_FINAL = "Diseño Final"
-    operaciones = [DISENO_ESPALDA, LARGO_TALLE, CONTORNO_BUSTO, DISENO_FINAL]
+    operaciones = [DISENO_ESPALDA, LARGO_TALLE, CONTORNO_BUSTO, CONTORNO_CINTURA, CONTORNO_CADERA, ALTURA_CADERA, LARGO_MANGAS, LARGO_TOTAL_CAMISA, COLECCIONES, CREACION_COLOR, CREACION_TELA, TIPOS_TELAS, COLORES, CONSULTA_DISENO, DISENO_FINAL]
     estaciones = ["Estación 1", "Estación 2", "Estación 3", "Estación 4", "Estación 5", "Estación 6"]
-    estacion_actual = 0
 
     # Variables para almacenar el tiempo transcurrido en cada operación y el tiempo total
     tiempos_operacion = [0] * len(operaciones)
@@ -48,9 +59,10 @@ def main():
 
     # Función para avanzar a la siguiente estación
     def avanzar_a_siguiente_estacion():
-        global estacion_actual
-        estacion_actual += 1
-        if estacion_actual == len(estaciones):
+        actual_estacion = 0
+        actual_estacion += 1
+        estacion_actual = actual_estacion
+        if actual_estacion == len(estaciones):
             estacion_actual = 0
         print(f"Avanzando a la siguiente estación: {estaciones[estacion_actual]}")
 
