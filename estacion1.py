@@ -1,17 +1,15 @@
 import random
 import time
-
 import estacion2
-
+import numpy as np
+from scipy.stats import norm, kstest
 
 def main():
     # Definición de variables
     estacion_actual = 0
-    tiempos_reales = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]  # Tiempos reales de las operaciones
-    tiempos_aleatorios = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]  # Tiempos aleatorios de las operaciones
-    # tiempos_reales = [60, 12, 12, 12, 12, 12, 12, 12, 25, 20, 60, 12, 12, 20, 25]  # Tiempos reales de las
-    # operaciones tiempos_aleatorios = [52, 56, 12, 59, 15, 22, 52, 20, 31, 33, 23, 12, 14, 15, 53]  # Tiempos
-    # aleatorios de las operaciones
+    datos_referencia = [46, 53, 22, 22, 21, 40, 46, 46, 22, 53, 22, 53, 46, 40, 40]
+    variables_aleatorias = []
+    variable_aleatoria = 0
     operacion_actual = 0  # Variable que indica la operación que se está realizando
     operaciones_correctas = False  # Variable que indica si todas las operaciones fueron correctas
     DISENO_ESPALDA = "Diseño Espalda"
@@ -33,26 +31,50 @@ def main():
                    LARGO_MANGAS, LARGO_TOTAL_CAMISA, COLECCIONES, CREACION_COLOR, CREACION_TELA, TIPOS_TELAS, COLORES,
                    CONSULTA_DISENO, DISENO_FINAL]
     estaciones = ["Estación 1", "Estación 2", "Estación 3", "Estación 4", "Estación 5", "Estación 6"]
+    inicio = time.perf_counter()
 
     # Variables para almacenar el tiempo transcurrido en cada operación y el tiempo total
     tiempos_operacion = [0] * len(operaciones)
     tiempos_estaciones = [0] * len(estaciones)
     tiempo_total = 0
 
-    # Función para realizar una operación
+    def generar_variables_aleatorias():
+        # Generación de variables aleatorias
+        media = np.mean(datos_referencia)
+        desviacion_estandar = np.std(datos_referencia)
 
-    print(f"{estaciones[estacion_actual]}")
+        # Verificar si los datos son enteros o con decimales
+        if all(isinstance(dato, int) for dato in datos_referencia):
+            generar_enteros = True
+        else:
+            generar_enteros = False
+
+        # Generar variables aleatorias
+        for _ in range(len(datos_referencia)):
+            if generar_enteros:
+                variable_aleatoria = int(np.random.normal(media, desviacion_estandar))
+            else:
+                variable_aleatoria = np.round(np.random.normal(media, desviacion_estandar), 2)
+            variables_aleatorias.append(variable_aleatoria)
+
+        # Identificar la distribución de las variables aleatorias
+        _, p_valor = kstest(datos_referencia, norm(media, desviacion_estandar).cdf)
+
+        # Función para realizar una operación
+        print(f"{estaciones[estacion_actual]}")
+
+        # Imprimir resultados generador de variables
+        print("Variables Aleatorias Generadas:", variables_aleatorias)
 
     def realizar_operacion(tiempo):
         inicio = time.perf_counter()  # Tiempo inicial
-        print(f"Realizando operación {operaciones[operacion_actual]}...")
         time.sleep(tiempo)
         fin = time.perf_counter()  # Tiempo final
         tiempo_transcurrido = fin - inicio  # Tiempo transcurrido
         tiempos_operacion[operacion_actual] = tiempo_transcurrido  # Almacenar el tiempo transcurrido en la variable
         # correspondiente
         tiempos_estaciones[estacion_actual] += tiempo_transcurrido  # Acumular el tiempo en la estación actual
-        print(f"Operación {operaciones[operacion_actual]} finalizada. Tiempo: {tiempo_transcurrido:.2f}s")
+        print(f"Operación {operaciones[operacion_actual]} finalizada en {tiempo_transcurrido:.2f}s")
 
     # Función para validar si las operaciones fueron correctas
     def validar_operaciones():
@@ -78,13 +100,16 @@ def main():
         print(f"Avanzando a la siguiente estación: {estaciones[estacion_actual]}")
         estacion2.main()
 
+    if not operaciones_correctas:
+        generar_variables_aleatorias()
+
     # Bucle de simulación
     while True:
         operaciones_correctas = False  # Reiniciar la variable para cada iteración del bucle
 
         while not operaciones_correctas:
             # Realizar operación actual con su tiempo correspondiente
-            tiempo_operacion = random.uniform(tiempos_aleatorios[operacion_actual], tiempos_reales[operacion_actual])
+            tiempo_operacion = random.uniform(variables_aleatorias[operacion_actual], variables_aleatorias[operacion_actual])
             realizar_operacion(tiempo_operacion)
 
             # Si no es la última operación, avanzar a la siguiente
@@ -95,16 +120,20 @@ def main():
                 if not validar_operaciones():
                     operacion_actual = 0  # Reiniciar la variable para cada iteración del bucle
                     estacion_actual = 0  # Reiniciar la variable para cada iteración del bucle
+                    variables_aleatorias = []
+                    variable_aleatoria = 0
                     break
 
             operaciones_correctas = all(tiempos_operacion)
             if operaciones_correctas and operacion_actual == len(operaciones) - 1:
                 tiempo_total = sum(tiempos_estaciones)
-                print(f"Tiempo total de la estación {estaciones[estacion_actual]}: {tiempo_total:.2f}s")
+                print(f"Tiempo total de la estación {estaciones[estacion_actual]}: {(tiempo_total/60):.2f} minutos")
                 avanzar_a_siguiente_estacion()
 
         if operaciones_correctas and operacion_actual == len(operaciones) - 1:
             print("Todas las operaciones han sido completadas con éxito.")
+            final = time.perf_counter() - inicio
+            print(f"Tiempo total de ejecución: {(final/60):.2f} minutos.")
             break
 
 
