@@ -4,34 +4,34 @@ import estacion1
 import numpy as np
 from scipy.stats import norm, kstest
 
-import estacion3
-
 
 def main():
     # Definición de variables
-    estacion_actual = 1
-    datos_referencia = [46, 53, 22, 22, 21, 40, 46, 46, 22, 53, 22, 53, 46, 40, 40]
+    estacion_actual = 3
+    datos_referencia = [0.50, 0.32, 0.63, 0.45, 0.45, 0.45, 0.32, 0.32, 0.45, 0.32, 0.20, 0.45, 0.20, 0.20, 0.32]
     variables_aleatorias = []
     variable_aleatoria = 0
     operacion_actual = 0  # Variable que indica la operación que se está realizando
     operaciones_correctas = False  # Variable que indica si todas las operaciones fueron correctas
-    ENVIO_REGISTRO = "Envio de orden y registro para telas y corte"
-    ENVIO_MP = "Envio de MP a corte"
-    TENDER = "Tender tela"
-    PLANTILLA_CORTE = "Poner plantilla para corte"
-    CORTAR_PLANTILLA = "Cortar plantilla"
-    BLOQUES_CORTADOS = "Piezas y bloques cortados"
-    ALINEACION_BLOQUE = "Alineación de bloque"
-    FOLIAR = "Foliar piezas"
-    PREPARAR_ENVIO = "Preparar para enviar"
-    GUARDAR_MODELO = "Se guarda el modelo en bolsa"
-    ALINEAR_EMPELLONADAS = "Llevar tela empellonada a alinear"
-    ENVIO_ORDEN = "Envio de orden"
-    INSPECCION_CORTE = "Inspección de corte"
-    ASEGURAR_PLANTILLA = "Asegurar plantilla"
-    operaciones = [ENVIO_REGISTRO, ENVIO_MP, TENDER, PLANTILLA_CORTE, CORTAR_PLANTILLA, BLOQUES_CORTADOS,
-                   ALINEACION_BLOQUE, FOLIAR, PREPARAR_ENVIO, GUARDAR_MODELO, ALINEAR_EMPELLONADAS,
-                   ENVIO_ORDEN, INSPECCION_CORTE, ASEGURAR_PLANTILLA]
+    MONTAJE_FALSO_BOLSA = "Montaje de falso de bolsa"
+    FALSO_BOLSA = "Falso de bolsa"
+    SOBRECOSTURA_BOLSA = "Sobrecostura de bolsa"
+    COSTURA_BOLSA_1_4 = "Costura de bolsa a 1/4'"
+    SOBRECOSTURA_FALSO_BOLSA = "Sobrecostura de falso de bolsa"
+    UNION_FALSOS_BOLSA = "Unión de falsos de bolsa"
+    LIMPIEZA_BOLSA = "Limpieza de bolsa"
+    UNION_COSTADO = "Unión de costado"
+    UNION_ENTREPIERNA = "Unión de entrepierna"
+    UNION_TIRO_CIRCULAR = "Unión de tiro circular"
+    LIMPIEZA_RUEDO = "Limpieza de ruedo"
+    COSTURA_RUEDO = "Costura de ruedo"
+    AFIANZAR_ELASTICO = "Afianzar elástico"
+    PRETINADO = "Pretinado"
+    PEGADO_PRETINA = "Pegado de pretina"
+    operaciones = [MONTAJE_FALSO_BOLSA, FALSO_BOLSA, SOBRECOSTURA_BOLSA, COSTURA_BOLSA_1_4, SOBRECOSTURA_FALSO_BOLSA,
+                   UNION_FALSOS_BOLSA, LIMPIEZA_BOLSA, UNION_COSTADO, UNION_ENTREPIERNA, UNION_TIRO_CIRCULAR,
+                   LIMPIEZA_RUEDO, COSTURA_RUEDO, AFIANZAR_ELASTICO, PRETINADO, PEGADO_PRETINA]
+
     estaciones = ["Estación 1", "Estación 2", "Estación 3", "Estación 4", "Estación 5", "Estación 6"]
 
     # Variables para almacenar el tiempo transcurrido en cada operación y el tiempo total
@@ -107,12 +107,11 @@ def main():
     # Función para avanzar a la siguiente estación
     def avanzar_a_siguiente_estacion():
         global estacion_actual  # Indicar que estacion_actual y operacion_actual se modificarán en el ámbito superior
-        estacion_actual = 1
+        estacion_actual = 3
         estacion_actual += 1
         if estacion_actual == len(estaciones):
-            estacion_actual = 1
+            estacion_actual = 3
         print(f"Avanzando a la siguiente estación: {estaciones[estacion_actual]}")
-        estacion3.main()
 
     if not operaciones_correctas:
         generar_variables_aleatorias()
@@ -128,18 +127,20 @@ def main():
             if operacion_actual < len(operaciones) - 1:
                 operacion_actual += 1
             else:
-                # Si la operación actual es la última, pero no todas las operaciones son correctas, regresar a la primera operación
+                # Si la operación actual es la última, pero no todas las operaciones son correctas,
+                # regresar a la primera operación
                 if not validar_operaciones():
                     operacion_actual = 0
 
             # Verificar si todas las operaciones han sido completadas
             if all(tiempos_operacion):  # Verificar si todos los tiempos de operación tienen un valor distinto de cero
                 operaciones_correctas = True
-                tiempo_total = sum(tiempos_estaciones[:2])
-                print(f"Tiempo total de la estación 2: {(tiempo_total/60):.2f} minutos")
+                tiempo_total = sum(tiempos_estaciones[:4])
+                print(f"Tiempo total de la estación 4: {(tiempo_total/60):.2f} minutos")
                 avanzar_a_siguiente_estacion()
 
-        # Si la operación actual es la última y todas las operaciones fueron completadas, romper el bucle y finalizar la simulación
+        # Si la operación actual es la última y todas las operaciones fueron completadas,
+        # romper el bucle y finalizar la simulación
         if operacion_actual == len(operaciones) - 1 and operaciones_correctas:
 
             break

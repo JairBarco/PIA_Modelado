@@ -4,34 +4,35 @@ import estacion1
 import numpy as np
 from scipy.stats import norm, kstest
 
-import estacion3
-
 
 def main():
     # Definición de variables
-    estacion_actual = 1
-    datos_referencia = [46, 53, 22, 22, 21, 40, 46, 46, 22, 53, 22, 53, 46, 40, 40]
+    estacion_actual = 5
+    #datos_referencia = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    datos_referencia = [54, 36, 60, 30, 70, 30, 54, 30, 30, 30, 30, 36, 30, 30, 36]
     variables_aleatorias = []
     variable_aleatoria = 0
     operacion_actual = 0  # Variable que indica la operación que se está realizando
     operaciones_correctas = False  # Variable que indica si todas las operaciones fueron correctas
-    ENVIO_REGISTRO = "Envio de orden y registro para telas y corte"
-    ENVIO_MP = "Envio de MP a corte"
-    TENDER = "Tender tela"
-    PLANTILLA_CORTE = "Poner plantilla para corte"
-    CORTAR_PLANTILLA = "Cortar plantilla"
-    BLOQUES_CORTADOS = "Piezas y bloques cortados"
-    ALINEACION_BLOQUE = "Alineación de bloque"
-    FOLIAR = "Foliar piezas"
-    PREPARAR_ENVIO = "Preparar para enviar"
-    GUARDAR_MODELO = "Se guarda el modelo en bolsa"
-    ALINEAR_EMPELLONADAS = "Llevar tela empellonada a alinear"
-    ENVIO_ORDEN = "Envio de orden"
-    INSPECCION_CORTE = "Inspección de corte"
-    ASEGURAR_PLANTILLA = "Asegurar plantilla"
-    operaciones = [ENVIO_REGISTRO, ENVIO_MP, TENDER, PLANTILLA_CORTE, CORTAR_PLANTILLA, BLOQUES_CORTADOS,
-                   ALINEACION_BLOQUE, FOLIAR, PREPARAR_ENVIO, GUARDAR_MODELO, ALINEAR_EMPELLONADAS,
-                   ENVIO_ORDEN, INSPECCION_CORTE, ASEGURAR_PLANTILLA]
+    ORGANIZACION = "Organización"
+    PICKING = "Picking"
+    EMPAQUETADO = "Empaquetado"
+    SELLADO = "Sellado"
+    MESA_ENSAMBLE = "Mesa de ensamble"
+    CARRO_PICKING = "Carro de picking"
+    AUTOMATIZACION = "Automatización"
+    ETIQUETAR = "Etiquetar"
+    GUARDAR = "Guardar"
+    ENVOLVER = "Envolver"
+    PROTEGER = "Proteger"
+    INVENTARIO = "Inventario"
+    RECOLECCION = "Recolección"
+    REVISAR = "Revisar"
+    ENVIO_PAQUETE = "Envío del paquete"
+    operaciones = [ORGANIZACION, PICKING, EMPAQUETADO, SELLADO, MESA_ENSAMBLE,
+                   CARRO_PICKING, AUTOMATIZACION, ETIQUETAR, GUARDAR, ENVOLVER,
+                   PROTEGER, INVENTARIO, RECOLECCION, REVISAR, ENVIO_PAQUETE]
+
     estaciones = ["Estación 1", "Estación 2", "Estación 3", "Estación 4", "Estación 5", "Estación 6"]
 
     # Variables para almacenar el tiempo transcurrido en cada operación y el tiempo total
@@ -100,19 +101,17 @@ def main():
         operaciones_correctas = False
         variables_aleatorias = []
         variable_aleatoria = 0
-        estacion_actual = 0
+        estacion_actual = 5
         print("Reiniciando el flujo de la simulación...")
-        estacion1.main()
+        main()
 
     # Función para avanzar a la siguiente estación
     def avanzar_a_siguiente_estacion():
         global estacion_actual  # Indicar que estacion_actual y operacion_actual se modificarán en el ámbito superior
-        estacion_actual = 1
+        estacion_actual = 5
         estacion_actual += 1
         if estacion_actual == len(estaciones):
-            estacion_actual = 1
-        print(f"Avanzando a la siguiente estación: {estaciones[estacion_actual]}")
-        estacion3.main()
+            estacion_actual = 5
 
     if not operaciones_correctas:
         generar_variables_aleatorias()
@@ -128,18 +127,20 @@ def main():
             if operacion_actual < len(operaciones) - 1:
                 operacion_actual += 1
             else:
-                # Si la operación actual es la última, pero no todas las operaciones son correctas, regresar a la primera operación
+                # Si la operación actual es la última, pero no todas las operaciones son correctas,
+                # regresar a la primera operación
                 if not validar_operaciones():
                     operacion_actual = 0
 
             # Verificar si todas las operaciones han sido completadas
             if all(tiempos_operacion):  # Verificar si todos los tiempos de operación tienen un valor distinto de cero
                 operaciones_correctas = True
-                tiempo_total = sum(tiempos_estaciones[:2])
-                print(f"Tiempo total de la estación 2: {(tiempo_total/60):.2f} minutos")
+                tiempo_total = sum(tiempos_estaciones[:5])
+                print(f"Tiempo total de la estación 6: {(tiempo_total/60):.2f} minutos")
                 avanzar_a_siguiente_estacion()
 
-        # Si la operación actual es la última y todas las operaciones fueron completadas, romper el bucle y finalizar la simulación
+        # Si la operación actual es la última y todas las operaciones fueron completadas,
+        # romper el bucle y finalizar la simulación
         if operacion_actual == len(operaciones) - 1 and operaciones_correctas:
 
             break

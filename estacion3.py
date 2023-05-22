@@ -4,34 +4,33 @@ import estacion1
 import numpy as np
 from scipy.stats import norm, kstest
 
-import estacion3
-
 
 def main():
     # Definición de variables
-    estacion_actual = 1
-    datos_referencia = [46, 53, 22, 22, 21, 40, 46, 46, 22, 53, 22, 53, 46, 40, 40]
+    estacion_actual = 2
+    datos_referencia = [72, 84, 36, 45, 16, 36, 16, 16, 36, 72, 45, 72, 84, 16, 16]
     variables_aleatorias = []
     variable_aleatoria = 0
     operacion_actual = 0  # Variable que indica la operación que se está realizando
     operaciones_correctas = False  # Variable que indica si todas las operaciones fueron correctas
-    ENVIO_REGISTRO = "Envio de orden y registro para telas y corte"
-    ENVIO_MP = "Envio de MP a corte"
-    TENDER = "Tender tela"
-    PLANTILLA_CORTE = "Poner plantilla para corte"
-    CORTAR_PLANTILLA = "Cortar plantilla"
-    BLOQUES_CORTADOS = "Piezas y bloques cortados"
-    ALINEACION_BLOQUE = "Alineación de bloque"
-    FOLIAR = "Foliar piezas"
-    PREPARAR_ENVIO = "Preparar para enviar"
-    GUARDAR_MODELO = "Se guarda el modelo en bolsa"
-    ALINEAR_EMPELLONADAS = "Llevar tela empellonada a alinear"
-    ENVIO_ORDEN = "Envio de orden"
-    INSPECCION_CORTE = "Inspección de corte"
-    ASEGURAR_PLANTILLA = "Asegurar plantilla"
-    operaciones = [ENVIO_REGISTRO, ENVIO_MP, TENDER, PLANTILLA_CORTE, CORTAR_PLANTILLA, BLOQUES_CORTADOS,
-                   ALINEACION_BLOQUE, FOLIAR, PREPARAR_ENVIO, GUARDAR_MODELO, ALINEAR_EMPELLONADAS,
-                   ENVIO_ORDEN, INSPECCION_CORTE, ASEGURAR_PLANTILLA]
+    RECEPCION = "Recepción de ficha técnica"
+    CORTE_TRAZO = "Corte y trazo de telas"
+    BUSCAR_TELA = "Buscar tela"
+    SOBRANTE = "Sobrante de tela"
+    ALFILERES = "Alfileres"
+    MOVER_PAÑOS = "Mover paños"
+    MESA_EXTENDIDO = "Se desplaza a mesa de extendido"
+    TRANSPORTAR_TENDIDOS = "Transportar tendidos"
+    REVISAR_TRAZO = "Revisar trazo"
+    MAQUINA_TELA = "Máquina de tela"
+    RESIDUOS = "Residuos de tela"
+    PROCESO_TELA = "Proceso de tela"
+    TRAZO_PANTALON = "Trazo de pantalón"
+    COLOR = "Color"
+    MATERIAL = "Material"
+    operaciones = [RECEPCION, CORTE_TRAZO, BUSCAR_TELA, SOBRANTE, ALFILERES, MOVER_PAÑOS,
+                   MESA_EXTENDIDO, TRANSPORTAR_TENDIDOS, REVISAR_TRAZO, MAQUINA_TELA,
+                   RESIDUOS, PROCESO_TELA, TRAZO_PANTALON, COLOR, MATERIAL]
     estaciones = ["Estación 1", "Estación 2", "Estación 3", "Estación 4", "Estación 5", "Estación 6"]
 
     # Variables para almacenar el tiempo transcurrido en cada operación y el tiempo total
@@ -107,12 +106,11 @@ def main():
     # Función para avanzar a la siguiente estación
     def avanzar_a_siguiente_estacion():
         global estacion_actual  # Indicar que estacion_actual y operacion_actual se modificarán en el ámbito superior
-        estacion_actual = 1
+        estacion_actual = 2
         estacion_actual += 1
         if estacion_actual == len(estaciones):
-            estacion_actual = 1
+            estacion_actual = 2
         print(f"Avanzando a la siguiente estación: {estaciones[estacion_actual]}")
-        estacion3.main()
 
     if not operaciones_correctas:
         generar_variables_aleatorias()
@@ -135,8 +133,8 @@ def main():
             # Verificar si todas las operaciones han sido completadas
             if all(tiempos_operacion):  # Verificar si todos los tiempos de operación tienen un valor distinto de cero
                 operaciones_correctas = True
-                tiempo_total = sum(tiempos_estaciones[:2])
-                print(f"Tiempo total de la estación 2: {(tiempo_total/60):.2f} minutos")
+                tiempo_total = sum(tiempos_estaciones[:3])
+                print(f"Tiempo total de la estación 3: {(tiempo_total/60):.2f} minutos")
                 avanzar_a_siguiente_estacion()
 
         # Si la operación actual es la última y todas las operaciones fueron completadas, romper el bucle y finalizar la simulación
