@@ -40,32 +40,33 @@ def main():
     tiempo_total = 0
 
     def generar_variables_aleatorias():
-        # Generación de variables aleatorias
-        media = np.mean(datos_referencia)
-        desviacion_estandar = np.std(datos_referencia)
+        # Generar variables aleatorias solo si la lista está vacía
+        if not variables_aleatorias:
+            # Generación de variables aleatorias
+            media = np.mean(datos_referencia)
+            desviacion_estandar = np.std(datos_referencia)
 
-        # Verificar si los datos son enteros o con decimales
-        if all(isinstance(dato, int) for dato in datos_referencia):
-            generar_enteros = True
-        else:
-            generar_enteros = False
-
-        # Generar variables aleatorias
-        for _ in range(len(datos_referencia)):
-            if generar_enteros:
-                variable_aleatoria = int(np.random.normal(media, desviacion_estandar))
+            # Verificar si los datos son enteros o con decimales
+            if all(isinstance(dato, int) for dato in datos_referencia):
+                generar_enteros = True
             else:
-                variable_aleatoria = np.round(np.random.normal(media, desviacion_estandar), 2)
-            variables_aleatorias.append(variable_aleatoria)
+                generar_enteros = False
 
-        # Identificar la distribución de las variables aleatorias
-        _, p_valor = kstest(datos_referencia, norm(media, desviacion_estandar).cdf)
+            # Generar variables aleatorias
+            for _ in range(len(datos_referencia)):
+                variable_aleatoria = 0  # Inicializar la variable aleatoria con cero
+                while variable_aleatoria == 0:  # Repetir hasta obtener un valor diferente de cero
+                    if generar_enteros:
+                        variable_aleatoria = abs(int(np.random.normal(media, desviacion_estandar)))
+                    else:
+                        variable_aleatoria = abs(np.round(np.random.normal(media, desviacion_estandar), 2))
+                variables_aleatorias.append(variable_aleatoria)
 
-        # Función para realizar una operación
-        print(f"{estaciones[estacion_actual]}")
+            # Identificar la distribución de las variables aleatorias
+            _, p_valor = kstest(datos_referencia, norm(media, desviacion_estandar).cdf)
 
-        # Imprimir resultados generador de variables
-        print("Variables Aleatorias Generadas:", variables_aleatorias)
+            # Imprimir resultados generador de variables
+            print("Variables Aleatorias Generadas:", variables_aleatorias)
 
     if operacion_actual == 14:
         operacion_actual = 0
