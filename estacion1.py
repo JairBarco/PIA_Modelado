@@ -58,15 +58,13 @@ def main():
                 variable_aleatoria = 0  # Inicializar la variable aleatoria con cero
                 while variable_aleatoria == 0:  # Repetir hasta obtener un valor diferente de cero
                     if generar_enteros:
-                        variable_aleatoria = abs(int(np.random.normal(media, desviacion_estandar))/100)
+                        variable_aleatoria = abs(int(np.random.normal(media, desviacion_estandar))/1000)
                     else:
-                        variable_aleatoria = abs(np.round(np.random.normal(media, desviacion_estandar), 2)/100)
+                        variable_aleatoria = abs(np.round(np.random.normal(media, desviacion_estandar), 2)/1000)
                 variables_aleatorias.append(variable_aleatoria)
 
             # Identificar la distribución de las variables aleatorias
             _, p_valor = kstest(datos_referencia, norm(media, desviacion_estandar).cdf)
-
-            print(f"{estaciones[estacion_actual]}")
 
     def realizar_operacion(tiempo):
         inicio = time.perf_counter()  # Tiempo inicial
@@ -85,10 +83,8 @@ def main():
 
         # Imprimir el mensaje de validación correspondiente
         if resultado_validacion:
-            print(f"Todas las operaciones han sido exitosas")
             resultado_validacion = True
         else:
-            print(f"Operaciones no exitosas")
             variables_aleatorias = []
             resultado_validacion = False
 
@@ -102,7 +98,6 @@ def main():
         operacion_actual = 0
         if estacion_actual == len(estaciones):
             estacion_actual = 0
-        print(f"Avanzando a la siguiente estación: {estaciones[estacion_actual]}")
         estacion2.main()
 
     generar_variables_aleatorias()
@@ -131,13 +126,14 @@ def main():
         operaciones_correctas = all(tiempos_operacion)
         if operaciones_correctas and operacion_actual == len(operaciones) - 1:
             tiempo_total = sum(tiempos_estaciones)
-            print(f"Tiempo total de la estación {estaciones[estacion_actual]}: {(tiempo_total / 60):.2f} minutos")
+            tiempo_total *= 1000
+            print(f"Tiempo total de la {estaciones[estacion_actual]}: {(tiempo_total / 60):.2f} minutos")
             avanzar_a_siguiente_estacion()
 
         if operaciones_correctas and operacion_actual == len(operaciones) - 1:
-            print("Todas las operaciones han sido completadas con éxito.")
             final = (time.perf_counter() - inicio)
-            print(f"Tiempo total de ejecución: {(final / 60):.2f} minutos.")
+            final *= 1000
+            print(f"Tiempo total de la Fabricación de la Prenda: {(final / 60):.2f} minutos.\n")
         break
 
 

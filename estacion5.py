@@ -60,9 +60,9 @@ def main():
                 variable_aleatoria = 0  # Inicializar la variable aleatoria con cero
                 while variable_aleatoria == 0:  # Repetir hasta obtener un valor diferente de cero
                     if generar_enteros:
-                        variable_aleatoria = abs(int(np.random.normal(media, desviacion_estandar))/10)
+                        variable_aleatoria = abs(int(np.random.normal(media, desviacion_estandar))/1000)
                     else:
-                        variable_aleatoria = abs(np.round(np.random.normal(media, desviacion_estandar), 2)/10)
+                        variable_aleatoria = abs(np.round(np.random.normal(media, desviacion_estandar), 2)/1000)
                 variables_aleatorias.append(variable_aleatoria)
 
             # Identificar la distribución de las variables aleatorias
@@ -87,7 +87,7 @@ def main():
 
         # Imprimir el mensaje de validación correspondiente
         if resultado_validacion:
-            print(f"Todas las operaciones han sido exitosas")
+            resultado_validacion = True
         else:
             print(f"Operaciones no exitosas")
             reiniciar_flujo_simulacion()
@@ -112,7 +112,6 @@ def main():
         estacion_actual += 1
         if estacion_actual == len(estaciones):
             estacion_actual = 4
-        print(f"Avanzando a la siguiente estación: {estaciones[estacion_actual]}")
         estacion6.main()
 
     if not operaciones_correctas:
@@ -138,6 +137,7 @@ def main():
             if all(tiempos_operacion):  # Verificar si todos los tiempos de operación tienen un valor distinto de cero
                 operaciones_correctas = True
                 tiempo_total = sum(tiempos_estaciones[:5])
+                tiempo_total *= 1000
                 print(f"Tiempo total de la estación 5: {(tiempo_total/60):.2f} minutos")
                 avanzar_a_siguiente_estacion()
 
