@@ -57,16 +57,13 @@ def main():
                 variable_aleatoria = 0  # Inicializar la variable aleatoria con cero
                 while variable_aleatoria == 0:  # Repetir hasta obtener un valor diferente de cero
                     if generar_enteros:
-                        variable_aleatoria = abs(int(np.random.normal(media, desviacion_estandar)))
+                        variable_aleatoria = abs(int(np.random.normal(media, desviacion_estandar))/100)
                     else:
-                        variable_aleatoria = abs(np.round(np.random.normal(media, desviacion_estandar), 2))
+                        variable_aleatoria = abs(np.round(np.random.normal(media, desviacion_estandar), 2)/100)
                 variables_aleatorias.append(variable_aleatoria)
 
             # Identificar la distribución de las variables aleatorias
             _, p_valor = kstest(datos_referencia, norm(media, desviacion_estandar).cdf)
-
-            # Imprimir resultados generador de variables
-            print("Variables Aleatorias Generadas:", variables_aleatorias)
 
     if operacion_actual == 14:
         operacion_actual = 0

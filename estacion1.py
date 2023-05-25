@@ -58,16 +58,13 @@ def main():
                 variable_aleatoria = 0  # Inicializar la variable aleatoria con cero
                 while variable_aleatoria == 0:  # Repetir hasta obtener un valor diferente de cero
                     if generar_enteros:
-                        variable_aleatoria = abs(int(np.random.normal(media, desviacion_estandar)))
+                        variable_aleatoria = abs(int(np.random.normal(media, desviacion_estandar))/100)
                     else:
-                        variable_aleatoria = abs(np.round(np.random.normal(media, desviacion_estandar), 2))
+                        variable_aleatoria = abs(np.round(np.random.normal(media, desviacion_estandar), 2)/100)
                 variables_aleatorias.append(variable_aleatoria)
 
             # Identificar la distribución de las variables aleatorias
             _, p_valor = kstest(datos_referencia, norm(media, desviacion_estandar).cdf)
-
-            # Imprimir resultados generador de variables
-            print("Variables Aleatorias Generadas:", variables_aleatorias)
 
             print(f"{estaciones[estacion_actual]}")
 
@@ -139,7 +136,7 @@ def main():
 
         if operaciones_correctas and operacion_actual == len(operaciones) - 1:
             print("Todas las operaciones han sido completadas con éxito.")
-            final = time.perf_counter() - inicio
+            final = (time.perf_counter() - inicio)
             print(f"Tiempo total de ejecución: {(final / 60):.2f} minutos.")
         break
 

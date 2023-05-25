@@ -4,6 +4,8 @@ import estacion1
 import numpy as np
 from scipy.stats import norm, kstest
 
+import estacion6
+
 
 def main():
     # Definición de variables
@@ -58,16 +60,13 @@ def main():
                 variable_aleatoria = 0  # Inicializar la variable aleatoria con cero
                 while variable_aleatoria == 0:  # Repetir hasta obtener un valor diferente de cero
                     if generar_enteros:
-                        variable_aleatoria = abs(int(np.random.normal(media, desviacion_estandar)))
+                        variable_aleatoria = abs(int(np.random.normal(media, desviacion_estandar))/10)
                     else:
-                        variable_aleatoria = abs(np.round(np.random.normal(media, desviacion_estandar), 2))
+                        variable_aleatoria = abs(np.round(np.random.normal(media, desviacion_estandar), 2)/10)
                 variables_aleatorias.append(variable_aleatoria)
 
             # Identificar la distribución de las variables aleatorias
             _, p_valor = kstest(datos_referencia, norm(media, desviacion_estandar).cdf)
-
-            # Imprimir resultados generador de variables
-            print("Variables Aleatorias Generadas:", variables_aleatorias)
 
     if operacion_actual == 14:
         operacion_actual = 0
@@ -114,6 +113,7 @@ def main():
         if estacion_actual == len(estaciones):
             estacion_actual = 4
         print(f"Avanzando a la siguiente estación: {estaciones[estacion_actual]}")
+        estacion6.main()
 
     if not operaciones_correctas:
         generar_variables_aleatorias()
