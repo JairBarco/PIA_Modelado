@@ -20,11 +20,19 @@ def main():
         estacion1.main()
         final = (time.perf_counter() - inicio)
         final *= 1000
-        contadorTotal += final
+        contadorTotal += final / 60
 
     # Mostrar la cantidad de prendas que se realizaron durante la ejecución del programa
     print(f"Prendas fabricadas: {contador_prendas}.")
-    print(f"Tiempo total de la fabricación de todas las prendas: {(contadorTotal / 60):.2f} minutos.")
+
+    if contadorTotal >= 60:
+        horas = contadorTotal // 60  # División entera para obtener las horas
+        minutos = contadorTotal % 60  # Obtener el residuo para los minutos
+        segundos = (minutos % 1) * 100
+        print(f"Tiempo total de la fabricación de todas las prendas: {horas:.0f} hora/s {minutos:.0f} minutos {segundos:.0f} segundos.")
+    else:
+        segundos = (contadorTotal % 1) * 100
+        print(f"Tiempo total de la fabricación de todas las prendas: {contadorTotal:.0f} minutos {segundos:.0f} segundos.")
 
 
 if __name__ == '__main__':
