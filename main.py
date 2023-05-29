@@ -45,6 +45,7 @@ def main():
             final *= 1000
             contadorTotal += final / 60
 
+
         # Mostrar la cantidad de prendas que se realizaron durante la ejecución del programa
         lbl_prendas_var.set(f"Prendas fabricadas: {contador_prendas}.")
         window.update_idletasks()  # Actualizar la interfaz
