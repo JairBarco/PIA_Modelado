@@ -45,10 +45,9 @@ def main():
             final *= 1000
             contadorTotal += final / 60
 
-
         # Mostrar la cantidad de prendas que se realizaron durante la ejecución del programa
         lbl_prendas_var.set(f"Prendas fabricadas: {contador_prendas}.")
-        window.update_idletasks()  # Actualizar la interfaz
+        lbl_prendas.update_idletasks()  # Actualizar la interfaz
 
         # Calcular y mostrar el tiempo total
         mostrar_tiempo_total()
@@ -66,6 +65,7 @@ def main():
             segundos = (contadorTotal % 1) * 100
             tiempo_total = f"Tiempo total de la fabricación de todas las prendas: {contadorTotal:.0f} minutos {segundos:.0f} segundos."
         lbl_tiempo_total_var.set(tiempo_total)
+        lbl_tiempo_total.update_idletasks()  # Actualizar la interfaz
 
     def redirect_output(text_widget):
         # Redirigir la salida estándar a un widget de texto
